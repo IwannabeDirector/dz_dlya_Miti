@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "task9"
+version = "0.1.0"
+description = ""
+authors = ["IwannabeDirector <a.nikitin1@g.nsu.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+seaborn = "^0.13.0"
+matplotlib = "^3.8.2"
+requests = "^2.31.0"
+bs4 = "^0.0.1"
+pandas = "^2.1.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
