@@ -1,4 +1,4 @@
-import random
+from random import random
 
 
 class Hero:
@@ -15,7 +15,7 @@ class Hero:
         self.health -= damage
 
     def critical_hit(self):
-        return random.random() < self.critical_chance / 100
+        return random() < self.critical_chance / 100
 
     def dodge(self):
-        return random.random() < self.agility / 100
+        return random() < self.agility / 100

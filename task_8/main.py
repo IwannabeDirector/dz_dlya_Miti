@@ -1,5 +1,6 @@
 from heroes import Hero
 from battle import battle
+import tkinter as tk
 import random
 
 
@@ -7,7 +8,39 @@ def main():
 	pass
 
 
+def display_text():
+	text = """
+	Невероятные приключения древних кибер-русов в Донецке
+	
+	Ящер: Русы, мы отобьём у вас Донецк и будем там выводить поросят
+	Рус: Вовремя вы, а то давно мы ящеров не жрали
+	
+	Битву решили провести у Макеевского родничка
+	Русы поскакали на конях, а ящеры поехали на мерзких электросамокатах
+	
+	Рус: Гойда
+	Ящер: Гой даааа?!
+	
+	Ящеры начали побеждать русов и воевода молвил князю
+	Где вода из Байкала бл#$ь?
+	
+	Дружина князя раздала русам воду и русы окрепли
+	Так древние русы отстояли Донецк
+	"""
+
+	root = tk.Tk()
+	root.title("Невероятные приключения")
+
+	text_widget = tk.Text(root, wrap="word", width=70, height=20, font=('Arial', 14))
+	text_widget.insert("1.0", text)
+	text_widget.pack()
+
+	root.mainloop()
+
+
 if __name__ == '__main__':
+	display_text()
+
 	Timirka = Hero('YuckTir', 100, 0, 0, 0, 0, 0)
 	Tema = Hero('Director', 100, 70, 20, 40, 80, 40)
 	Mitya = Hero('Timir', 100, 1, 2, 3, 4, 1)

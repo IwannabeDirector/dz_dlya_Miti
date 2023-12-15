@@ -17,17 +17,33 @@ def parsing_gene(gene_number, taxa):
 	html_code = gene_page.text
 	soup = BeautifulSoup(html_code, 'html.parser')
 
-	kekes_list = []
-	network_section = soup.find('th', string='Network')
-	if network_section:
-		disease = network_section.find_next('div', class_='cel')
-		if disease:
-			for link in disease:
-				kekes_list.append(link)
-				for i in range(0, len(kekes_list), 3):
-					key = kekes_list[i].text
-					value = kekes_list[i + 1].strip() if i + 1 < len(kekes_list) else None
-					phenotypes_dictionary[key] = value
+	network_section = soup.find_all('td', class_='td11 repd')
+	network_section.pop(0)
+
+	kek1 = ''.join(str(network_section))
+	kek_main = kek1.split('<td>')
+	kek_i = kek_main
+
+	index_list = []
+	phen_list = []
+	for i in range(len(kek_i)):
+		start_index = kek_i[i].find('/entry/') + len('/entry/')
+		end_index = kek_i[i].find('">', start_index)
+
+		# Извлекаем подстроку
+		result = kek_i[i][start_index:end_index]
+		index_list.append(result)
+
+	kek_f = kek_main
+	kek_f.pop(0)
+	for i in range(len(kek_f)):
+		start_index = kek_f[i].find("'")
+		end_index = kek_f[i].find("</")
+		result = kek_f[i][start_index + 1: end_index]
+		phen_list.append(result)
+
+	phenotypes_dictionary = dict(zip(index_list, phen_list))
+
 
 	list_for_nt = []
 	nucleotide_section = soup.find(lambda tag: tag.name == 'th' and 'NT seq' in tag.text)
@@ -110,6 +126,7 @@ def parsing_ortho(gene_number, taxa):
 		correlations = subset[['Col2', 'Col3']].corr(method='pearson').iloc[0, 1]
 		cor.append(correlations)
 
+
 	return cor
 
 
@@ -118,10 +135,22 @@ if __name__ == "__main__":
 	gene_number = '7314'
 
 	phenotypes, gene_info = parsing_gene(gene_number, taxa)
-	print(f'Вот такую вот жижу напарсил: \nФенотипы{phenotypes}\n')
+	print(f'Вот такую вот жижу напарсил:')
+	for key, value in phenotypes.items():
+		print(f'{key}: {value}')
+
+	print('')
+
 	for key, value in gene_info.items():
 		print(f'{key}: {value}\n')
 
 	cor = parsing_ortho(gene_number, taxa)
 	for i, corr in enumerate(cor, start=1):
-		print(f"N = {corr}")
+		if i == 1:
+			print(f'10 orthologs = {corr}')
+		elif i == 2:
+			print(f'100 orthologs = {corr}')
+		elif i == 3:
+			print(f'200 orthologs = {corr}')
+		elif i == 4:
+			print(f'500 orthologs = {corr}')
